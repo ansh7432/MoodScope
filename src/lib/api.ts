@@ -130,13 +130,44 @@ export const moodScopeAPI = {
   /**
    * Get demo analysis data with performance monitoring
    */
-  async getDemoAnalysis(): Promise<AnalysisResult> {
+  async getDemoAnalysis(demoType: string = 'upbeat'): Promise<AnalysisResult> {
     return performanceMonitor.measureApiCall(
       async () => {
-        const response = await api.get('/demo');
+        const response = await api.get(`/demo/${demoType}`);
         return response.data;
       },
-      'demo-analysis'
+      `demo-analysis-${demoType}`
+    );
+  },
+
+  /**
+   * Get available demo types
+   */
+  async getDemoTypes(): Promise<{ demos: Array<{ id: string; name: string; description: string }> }> {
+    return performanceMonitor.measureApiCall(
+      async () => {
+        // Return static demo types (could be fetched from backend in the future)
+        return {
+          demos: [
+            { 
+              id: 'upbeat', 
+              name: 'Upbeat Energy Mix', 
+              description: 'High-energy tracks perfect for workouts and motivation' 
+            },
+            { 
+              id: 'chill', 
+              name: 'Chill Vibes Collection', 
+              description: 'Relaxing and mellow tracks for studying or unwinding' 
+            },
+            { 
+              id: 'mixed', 
+              name: 'Mixed Moods Playlist', 
+              description: 'Diverse emotional range from happy to melancholic' 
+            }
+          ]
+        };
+      },
+      'demo-types'
     );
   },
 };

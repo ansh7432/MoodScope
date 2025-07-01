@@ -9,6 +9,7 @@ import { MoodTrendsChart } from '@/components/charts/MoodTrendsChart';
 import { AnalysisComparison } from '@/components/AnalysisComparison';
 import { MusicTermsGlossary } from '@/components/MusicTermsGlossary';
 import { AdvancedDashboard } from '@/components/AdvancedDashboard';
+import { DemoSelector } from '@/components/DemoSelector';
 import { moodScopeAPI } from '@/lib/api';
 import { analysisStorage, type StoredAnalysis } from '@/lib/storage';
 import type { AnalysisResult, ApiError } from '@/lib/types';
@@ -39,6 +40,7 @@ export default function Home() {
   const [showAdvancedAnalytics, setShowAdvancedAnalytics] = useState(false);
   const [showAdvancedDashboard, setShowAdvancedDashboard] = useState(false);
   const [dashboardTab, setDashboardTab] = useState<'history' | 'favorites' | 'compare' | 'export' | 'visualizations' | 'ai-features'>('history');
+  const [showDemoSelector, setShowDemoSelector] = useState(false);
 
   // Load analysis history on component mount
   useEffect(() => {
@@ -103,17 +105,22 @@ export default function Home() {
   };
 
   const handleDemo = async () => {
+    setShowDemoSelector(true);
+  };
+
+  const handleDemoSelection = async (demoType: string) => {
+    setShowDemoSelector(false);
     setIsLoading(true);
     setError(null);
     setResult(null);
 
     try {
-      const demoResult = await moodScopeAPI.getDemoAnalysis();
+      const demoResult = await moodScopeAPI.getDemoAnalysis(demoType);
       setResult(demoResult);
       
       // Save demo analysis with proper name
-      const playlistName = demoResult.playlist_name || 'Demo Analysis';
-      const savedAnalysis = analysisStorage.saveAnalysis('demo', demoResult, playlistName);
+      const playlistName = demoResult.playlist_name || `Demo: ${demoType}`;
+      const savedAnalysis = analysisStorage.saveAnalysis(`demo-${demoType}`, demoResult, playlistName);
       setAnalysisHistory(prev => [savedAnalysis, ...prev]);
     } catch (err) {
       const apiError = err as ApiError;
@@ -463,6 +470,14 @@ export default function Home() {
           initialTab={dashboardTab}
         />
       )}
+
+      {/* Demo Selector Modal */}
+      <DemoSelector
+        isOpen={showDemoSelector}
+        onClose={() => setShowDemoSelector(false)}
+        onSelect={handleDemoSelection}
+        isLoading={isLoading}
+      />
     </div>
   );
 }

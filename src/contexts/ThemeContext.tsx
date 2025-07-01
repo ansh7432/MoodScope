@@ -25,16 +25,16 @@ interface ThemeContextType {
 }
 
 const defaultTheme: ChartTheme = {
-  id: 'sunset',
-  name: 'Sunset Glow',
+  id: 'midnight',
+  name: 'Midnight Sky',
   icon: () => null,
-  description: 'Warm oranges and purples like a beautiful sunset',
-  mood: 'energetic',
+  description: 'Dark blues and silvers for a professional night-time feel',
+  mood: 'dark',
   colors: {
-    primary: ['#FF6B35', '#F7931E', '#FFD23F', '#FF8066', '#E63946'],
-    secondary: ['#6A4C93', '#8E44AD', '#9B59B6', '#D63384', '#E91E63'],
-    accent: ['#FFE66D', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'],
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    primary: ['#191970', '#000080', '#0000CD', '#4169E1', '#1E90FF'],
+    secondary: ['#2F4F4F', '#708090', '#778899', '#B0C4DE', '#C0C0C0'],
+    accent: ['#FFFAF0', '#F5F5DC', '#FFEFD5', '#FFE4B5', '#FFDAB9'],
+    background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
     text: '#FFFFFF',
     border: 'rgba(255, 255, 255, 0.2)'
   }

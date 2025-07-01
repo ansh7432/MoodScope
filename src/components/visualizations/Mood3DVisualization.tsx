@@ -23,7 +23,6 @@ interface Point3D {
 
 export function Mood3DVisualization({ tracks, selectedTrack, onTrackSelect }: Mood3DVisualizationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>(0);
   const [isRotating, setIsRotating] = useState(true);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -44,7 +43,7 @@ export function Mood3DVisualization({ tracks, selectedTrack, onTrackSelect }: Mo
     return `hsl(${hue}, 70%, 60%)`;
   }
 
-  function projectTo2D(point: Point3D, centerX: number, centerY: number): { x: number; y: number; z: number } {
+  const projectTo2D = useCallback((point: Point3D, centerX: number, centerY: number): { x: number; y: number; z: number } => {
     // Simple 3D to 2D projection with rotation
     const cosX = Math.cos(rotation.x);
     const sinX = Math.sin(rotation.x);
@@ -68,7 +67,7 @@ export function Mood3DVisualization({ tracks, selectedTrack, onTrackSelect }: Mo
       y: centerY + y1 * scale,
       z: z2,
     };
-  }
+  }, [rotation]);
 
   const drawVisualization = useCallback(() => {
     const canvas = canvasRef.current;
@@ -193,7 +192,7 @@ export function Mood3DVisualization({ tracks, selectedTrack, onTrackSelect }: Mo
     ctx.fillText('Y: Energy (Intensity)', 20, 65);
     ctx.fillText('Z: Danceability (Depth)', 20, 80);
     ctx.fillText('Color: Overall Mood', 20, 95);
-  }, [points3D, selectedTrack, rotation]);
+  }, [points3D, selectedTrack, projectTo2D]); // projectTo2D includes rotation internally
 
   function handleMouseDown(e: React.MouseEvent) {
     if (!isRotating) {
@@ -254,6 +253,8 @@ export function Mood3DVisualization({ tracks, selectedTrack, onTrackSelect }: Mo
 
   // Animation loop
   useEffect(() => {
+    let animationFrameId: number;
+    
     function animate() {
       if (isRotating) {
         setRotation(prev => ({
@@ -262,17 +263,24 @@ export function Mood3DVisualization({ tracks, selectedTrack, onTrackSelect }: Mo
         }));
       }
       drawVisualization();
-      animationRef.current = requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     }
 
-    animate();
+    animationFrameId = requestAnimationFrame(animate);
 
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [isRotating, selectedTrack, points3D, drawVisualization]); // Now including drawVisualization
+  }, [isRotating, drawVisualization]); // Include drawVisualization but it's now stable
+
+  // Separate effect for redrawing when data changes
+  useEffect(() => {
+    if (!isRotating) {
+      drawVisualization();
+    }
+  }, [selectedTrack, drawVisualization, isRotating]);
 
   // Handle canvas resize
   useEffect(() => {

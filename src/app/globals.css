@@ -3,6 +3,29 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Theme colors - default values */
+  --chart-color-1: #FF6B35;
+  --chart-color-2: #F7931E;
+  --chart-color-3: #FFD23F;
+  --chart-color-4: #FF8066;
+  --chart-color-5: #E63946;
+  
+  --chart-secondary-1: #6A4C93;
+  --chart-secondary-2: #8E44AD;
+  --chart-secondary-3: #9B59B6;
+  --chart-secondary-4: #D63384;
+  --chart-secondary-5: #E91E63;
+  
+  --chart-accent-1: #FFE66D;
+  --chart-accent-2: #FF6B6B;
+  --chart-accent-3: #4ECDC4;
+  --chart-accent-4: #45B7D1;
+  --chart-accent-5: #96CEB4;
+  
+  --theme-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --theme-text: #FFFFFF;
+  --theme-border: rgba(255, 255, 255, 0.2);
 }
 
 @theme inline {
@@ -24,3 +47,22 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Theme-aware classes */
+.theme-background {
+  background: var(--theme-background);
+}
+
+.theme-text {
+  color: var(--theme-text);
+}
+
+.theme-border {
+  border-color: var(--theme-border);
+}
+
+.chart-color-1 { color: var(--chart-color-1); }
+.chart-color-2 { color: var(--chart-color-2); }
+.chart-color-3 { color: var(--chart-color-3); }
+.chart-color-4 { color: var(--chart-color-4); }
+.chart-color-5 { color: var(--chart-color-5); }

@@ -16,7 +16,6 @@ import {
   Brain,
   LineChart
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { analysisStorage, type StoredAnalysis } from '@/lib/storage';
 import { Mood3DVisualization } from '@/components/visualizations/Mood3DVisualization';
@@ -137,63 +136,63 @@ export function AdvancedDashboard({ currentAnalysis, onClose, initialTab = 'hist
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
       onClick={onClose}
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="w-full max-w-6xl max-h-[90vh] overflow-auto"
+        className="w-full max-w-7xl h-[90vh] bg-gray-900/98 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl flex flex-col text-white"
         onClick={(e) => e.stopPropagation()}
       >
-        <Card className="bg-gray-900/95 backdrop-blur-md border-white/20 text-white">
-          <CardHeader className="pb-4">
-            <div className="flex items-center justify-between">
-              <CardTitle className="flex items-center space-x-2 text-2xl">
-                <TrendingUp className="h-6 w-6 text-cyan-400" />
-                <span>Advanced Analytics Dashboard</span>
-              </CardTitle>
-              <Button
-                onClick={onClose}
-                variant="ghost"
-                size="sm"
-                className="text-white hover:bg-white/10"
-              >
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-            
-            {/* Tab Navigation */}
-            <div className="flex space-x-1 bg-white/5 rounded-lg p-1 mt-4">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all text-sm font-medium ${
-                    activeTab === tab.id
-                      ? 'bg-white/20 text-white'
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  <tab.icon className="h-4 w-4" />
-                  <span>{tab.label}</span>
-                </button>
-              ))}
-            </div>
-          </CardHeader>
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <div className="flex items-center space-x-3">
+            <TrendingUp className="h-6 w-6 text-cyan-400" />
+            <h2 className="text-2xl font-bold">Advanced Analytics Dashboard</h2>
+          </div>
+          <Button
+            onClick={onClose}
+            variant="ghost"
+            size="sm"
+            className="text-white hover:bg-white/10 p-2"
+          >
+            <X className="h-5 w-5" />
+          </Button>
+        </div>
+        
+        {/* Tab Navigation */}
+        <div className="flex space-x-1 bg-white/5 m-6 mb-0 rounded-lg p-1">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center space-x-2 px-4 py-2.5 rounded-md transition-all text-sm font-medium ${
+                activeTab === tab.id
+                  ? 'bg-white/20 text-white shadow-sm'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              <tab.icon className="h-4 w-4" />
+              <span className="hidden sm:inline">{tab.label}</span>
+            </button>
+          ))}
+        </div>
 
-          <CardContent className="space-y-6">
+        {/* Content */}
+        <div className="flex-1 overflow-hidden">
+          <div className="h-full overflow-y-auto p-6 pt-4">
             {/* Search Bar (for history and favorites) */}
             {(activeTab === 'history' || activeTab === 'favorites') && (
-              <div className="relative">
+              <div className="relative mb-6">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/40" />
                 <input
                   type="text"
                   placeholder="Search analyses..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400"
                 />
               </div>
             )}
@@ -460,8 +459,8 @@ export function AdvancedDashboard({ currentAnalysis, onClose, initialTab = 'hist
                 </motion.div>
               )}
             </AnimatePresence>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </motion.div>
     </motion.div>
   );

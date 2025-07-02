@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Music, Brain, TrendingUp, Users, Sparkles, Boxes } from 'lucide-react';
+import { Music, Brain, TrendingUp, Users, Sparkles, Boxes, Heart } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MoodDistributionChart } from '@/components/charts/MoodDistributionChart';
@@ -110,7 +110,7 @@ export function AnalysisResults({ result, onOpenAdvancedVisualizations, onOpenAI
       </motion.div>
 
       {/* Key Statistics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {stats.map((stat, index) => (
           <motion.div
             key={stat.label}
@@ -118,13 +118,13 @@ export function AnalysisResults({ result, onOpenAdvancedVisualizations, onOpenAI
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white">
+            <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/15 transition-all group">
               <CardContent className="p-4 text-center">
-                <div className="flex justify-center mb-2">
+                <div className="flex justify-center mb-2 group-hover:scale-110 transition-transform">
                   <stat.icon className={`h-6 w-6 ${stat.color}`} />
                 </div>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <div className="text-sm text-white/70">{stat.label}</div>
+                <div className="text-xl md:text-2xl font-bold">{stat.value}</div>
+                <div className="text-xs md:text-sm text-white/70">{stat.label}</div>
               </CardContent>
             </Card>
           </motion.div>
@@ -138,15 +138,26 @@ export function AnalysisResults({ result, onOpenAdvancedVisualizations, onOpenAI
         transition={{ duration: 0.5, delay: 0.5 }}
         className="text-center"
       >
-        <Card className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md border-white/20 text-white">
-          <CardContent className="p-6">
+        <Card className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md border-white/20 text-white hover:shadow-lg hover:shadow-purple-500/20 transition-all">
+          <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-center space-x-4">
-              <span className="text-4xl">
+              <motion.span 
+                className="text-3xl md:text-4xl"
+                animate={{ 
+                  rotate: [0, 10, -10, 0],
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{ 
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatDelay: 3
+                }}
+              >
                 {getMoodEmoji(mood_summary.dominant_mood)}
-              </span>
+              </motion.span>
               <div>
-                <h3 className="text-xl font-semibold">Dominant Mood</h3>
-                <p className="text-2xl font-bold text-purple-300">
+                <h3 className="text-lg md:text-xl font-semibold">Dominant Mood</h3>
+                <p className="text-xl md:text-2xl font-bold text-purple-300">
                   {mood_summary.dominant_mood}
                 </p>
               </div>
@@ -220,67 +231,131 @@ export function AnalysisResults({ result, onOpenAdvancedVisualizations, onOpenAI
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
         >
-          <Card className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 backdrop-blur-md border-white/20 text-white">
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:shadow-lg hover:shadow-purple-500/10 transition-all">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <Sparkles className="h-5 w-5 text-yellow-400" />
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 360],
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{ 
+                    duration: 4,
+                    repeat: Infinity,
+                    repeatDelay: 3
+                  }}
+                >
+                  <Sparkles className="h-5 w-5 text-yellow-400" />
+                </motion.div>
                 <span>AI-Powered Insights</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div>
-                <h4 className="text-lg font-semibold mb-2 text-cyan-300">
-                  Emotional Analysis
+              {/* Emotional Analysis */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <h4 className="text-lg font-semibold mb-3 text-cyan-300 flex items-center space-x-2">
+                  <Brain className="h-4 w-4" />
+                  <span>Emotional Analysis</span>
                 </h4>
-                <p className="text-white/90 leading-relaxed">
-                  {ai_insights.emotional_analysis}
-                </p>
-              </div>
+                <div className="bg-white/5 rounded-lg p-4 border border-cyan-400/20">
+                  <p className="text-white/90 leading-relaxed">
+                    {ai_insights.emotional_analysis}
+                  </p>
+                </div>
+              </motion.div>
 
-              <div>
-                <h4 className="text-lg font-semibold mb-2 text-purple-300">
-                  Personality Traits
+              {/* Personality Traits - Compact Grid */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <h4 className="text-lg font-semibold mb-3 text-purple-300 flex items-center space-x-2">
+                  <Users className="h-4 w-4" />
+                  <span>Personality Traits</span>
                 </h4>
-                <div className="grid md:grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                   {ai_insights.personality_traits.map((trait, index) => (
-                    <div
+                    <motion.div
                       key={index}
-                      className="flex items-center space-x-2 bg-white/10 rounded-lg p-2"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.4 + index * 0.05 }}
+                      whileHover={{ scale: 1.05 }}
+                      className="bg-white/10 rounded-lg p-3 border border-purple-400/20 hover:border-purple-400/40 transition-all cursor-pointer text-center group"
                     >
-                      <span className="text-yellow-400">✨</span>
-                      <span className="text-sm">{trait}</span>
-                    </div>
+                      <motion.div 
+                        className="text-yellow-400 text-lg mb-1"
+                        animate={{ rotate: [0, 10, -10, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
+                      >
+                        ✨
+                      </motion.div>
+                      <span className="text-xs font-medium text-white group-hover:text-purple-300 transition-colors">
+                        {trait}
+                      </span>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
-              <div>
-                <h4 className="text-lg font-semibold mb-2 text-green-300">
-                  Recommendations
+              {/* Smart Recommendations - Compact Grid */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                <h4 className="text-lg font-semibold mb-3 text-green-300 flex items-center space-x-2">
+                  <TrendingUp className="h-4 w-4" />
+                  <span>Smart Recommendations</span>
                 </h4>
-                <div className="space-y-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {ai_insights.recommendations.map((rec, index) => (
-                    <div
+                    <motion.div
                       key={index}
-                      className="flex items-start space-x-2 bg-white/5 rounded-lg p-3"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6 + index * 0.1 }}
+                      whileHover={{ y: -2 }}
+                      className="bg-white/5 rounded-lg p-3 border border-green-400/20 hover:border-green-400/40 transition-all group"
                     >
-                      <span className="text-green-400 mt-0.5">💡</span>
-                      <span className="text-sm text-white/90">{rec}</span>
-                    </div>
+                      <div className="flex items-start space-x-2">
+                        <motion.span 
+                          className="text-green-400 text-sm flex-shrink-0 mt-0.5"
+                          animate={{ scale: [1, 1.2, 1] }}
+                          transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                        >
+                          💡
+                        </motion.span>
+                        <span className="text-sm text-white/90 leading-relaxed group-hover:text-white transition-colors">
+                          {rec}
+                        </span>
+                      </div>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
-              <div>
-                <h4 className="text-lg font-semibold mb-2 text-pink-300">
-                  Mood Coaching
+              {/* Mood Coaching */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+              >
+                <h4 className="text-lg font-semibold mb-3 text-pink-300 flex items-center space-x-2">
+                  <Heart className="h-4 w-4" />
+                  <span>Personalized Mood Coaching</span>
                 </h4>
-                <div className="bg-white/10 rounded-lg p-4">
+                <div className="bg-gradient-to-r from-pink-500/10 to-purple-500/10 rounded-lg p-4 border border-pink-400/20">
                   <p className="text-white/90 leading-relaxed">
                     {ai_insights.mood_coaching}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </CardContent>
           </Card>
         </motion.div>

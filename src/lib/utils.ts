@@ -6,11 +6,40 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const moodColors = {
-  'Energetic & Happy': '#FFD700',
-  'Calm & Content': '#87CEEB',
-  'Intense & Dramatic': '#FF6B6B',
-  'Melancholic & Reflective': '#9370DB',
-  'Neutral & Balanced': '#98FB98',
+  // Happy/Energetic moods - Warm colors
+  'Energetic & Happy': '#FFD700', // Gold
+  'Happy & Uplifting': '#FF6B35', // Vibrant Orange
+  'Excited & Energetic': '#FF1744', // Bright Red
+  'Upbeat & Energetic': '#FF9800', // Orange
+  
+  // Calm/Peaceful moods - Cool blues and greens
+  'Calm & Content': '#4FC3F7', // Light Blue
+  'Balanced & Stable': '#66BB6A', // Green
+  'Neutral & Balanced': '#78909C', // Blue Grey
+  'Contemplative & Peaceful': '#81C784', // Light Green
+  'Peaceful & Serene': '#26C6DA', // Cyan
+  
+  // Emotional/Deep moods - Purples and deep blues
+  'Melancholic & Reflective': '#9C27B0', // Purple
+  'Melancholic & Thoughtful': '#7986CB', // Indigo
+  'Deeply Emotional': '#673AB7', // Deep Purple
+  'Atmospheric & Emotional': '#8E24AA', // Medium Purple
+  'Vulnerable & Heartfelt': '#EC407A', // Pink
+  
+  // Sad/Reflective moods - Darker purples and blues
+  'Sad & Reflective': '#5C6BC0', // Deep Purple
+  'Introspective & Sad': '#3F51B5', // Indigo
+  'Melancholic & Sad': '#512DA8', // Deep Purple
+  
+  // Intense/Dramatic moods - Reds and magentas
+  'Intense & Dramatic': '#E91E63', // Pink
+  'Passionate & Intense': '#D32F2F', // Red
+  'Dramatic & Powerful': '#C2185B', // Dark Pink
+  
+  // Other/Undefined - Neutral colors
+  'Other': '#9E9E9E', // Grey
+  'Undefined': '#757575', // Dark Grey
+  'Mixed': '#607D8B', // Blue Grey
 } as const;
 
 export const gradients = {
@@ -26,11 +55,40 @@ export function formatMoodScore(score: number): string {
 
 export function getMoodEmoji(mood: string): string {
   const emojiMap: Record<string, string> = {
+    // Happy/Energetic moods
     'Energetic & Happy': '🎉',
+    'Happy & Uplifting': '😊',
+    'Excited & Energetic': '⚡',
+    'Upbeat & Energetic': '🚀',
+    
+    // Calm/Peaceful moods
     'Calm & Content': '😌',
-    'Intense & Dramatic': '🔥',
+    'Balanced & Stable': '⚖️',
+    'Neutral & Balanced': '🔘',
+    'Contemplative & Peaceful': '�️',
+    'Peaceful & Serene': '🌊',
+    
+    // Emotional/Deep moods
     'Melancholic & Reflective': '🌙',
-    'Neutral & Balanced': '⚖️',
+    'Melancholic & Thoughtful': '💭',
+    'Deeply Emotional': '💫',
+    'Atmospheric & Emotional': '🌌',
+    'Vulnerable & Heartfelt': '💝',
+    
+    // Sad/Reflective moods
+    'Sad & Reflective': '😔',
+    'Introspective & Sad': '🤔',
+    'Melancholic & Sad': '😞',
+    
+    // Intense/Dramatic moods
+    'Intense & Dramatic': '🔥',
+    'Passionate & Intense': '❤️‍🔥',
+    'Dramatic & Powerful': '⚡',
+    
+    // Other/Undefined
+    'Other': '🎵',
+    'Undefined': '❓',
+    'Mixed': '🌈',
   };
   return emojiMap[mood] || '🎵';
 }

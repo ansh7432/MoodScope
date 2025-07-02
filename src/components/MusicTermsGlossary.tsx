@@ -1,12 +1,34 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Info, X, Music, Heart, Zap, Activity, Mic, Volume2 } from 'lucide-react';
+import { Info, X, Music, Heart, Zap, Activity, Mic, Volume2, Brain } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
 const musicTerms = [
+  {
+    term: 'Mood Score',
+    icon: Brain,
+    color: 'text-purple-400',
+    definition: 'Overall emotional tone of the track',
+    explanation: 'Combines valence, energy, and other audio features to determine the overall mood and emotional impact. Higher scores indicate more positive/uplifting moods. Range: 0.0 to 1.0',
+    examples: {
+      high: 'Upbeat pop songs, feel-good anthems',
+      low: 'Melancholic ballads, dark ambient tracks'
+    }
+  },
+  {
+    term: 'Energy Level',
+    icon: Zap,
+    color: 'text-yellow-400',
+    definition: 'Perceptual measure of intensity and power',
+    explanation: 'Represents how fast, loud, and noisy a track feels. High energy tracks feel energetic and intense, while low energy tracks feel calm and subdued. Range: 0.0 to 1.0',
+    examples: {
+      high: 'Death metal, fast electronic dance music, rock anthems',
+      low: 'Lullabies, ambient music, slow ballads'
+    }
+  },
   {
     term: 'Valence',
     icon: Heart,

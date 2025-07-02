@@ -1,161 +1,87 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Music, Sparkles, Zap } from 'lucide-react';
-import ThemeSelector from './ui/ThemeSelector';
+import { Music, Sparkles, Moon, Sun, BarChart3 } from 'lucide-react';
 
-export function Header() {
+interface HeaderProps {
+  onShowAdvancedAnalytics?: () => void;
+  hasAnalysisData?: boolean;
+}
+
+export function Header({ onShowAdvancedAnalytics, hasAnalysisData }: HeaderProps) {
+  const [isDark, setIsDark] = useState(true);
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="w-full bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white py-16 relative overflow-hidden border-b border-slate-800"
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-gray-800/50"
     >
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-blue-500/5 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-        <div className="absolute top-0 right-1/4 w-72 h-72 bg-indigo-500/5 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-      </div>
-
-      {/* Professional grid pattern overlay */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMDMpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Theme Selector - positioned in top right */}
-        <div className="absolute top-4 right-4">
-          <ThemeSelector />
-        </div>
-        
-        <div className="flex items-center justify-center space-x-6">
-          {/* Animated music icon */}
+      <div className="container mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo and Brand */}
           <motion.div
-            initial={{ rotate: 0, scale: 0 }}
-            animate={{ rotate: 360, scale: 1 }}
-            transition={{ 
-              rotate: { duration: 2, repeat: Infinity, ease: 'linear' },
-              scale: { duration: 0.5, delay: 0.2 }
-            }}
-            className="relative"
+            className="flex items-center space-x-3"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full blur-md opacity-50"></div>
-            <div className="relative bg-gradient-to-r from-purple-600 to-cyan-600 p-3 rounded-full">
-              <Music className="h-8 w-8 text-white" />
+            <div className="relative">
+              <Music className="w-8 h-8 text-cyan-400" />
+              <motion.div
+                className="absolute inset-0 bg-cyan-400/30 rounded-full blur-md"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">MoodScope</h1>
+              <div className="flex items-center space-x-1">
+                <Sparkles className="w-3 h-3 text-purple-400" />
+                <span className="text-xs text-purple-400 font-medium">AI Powered</span>
+              </div>
             </div>
           </motion.div>
 
-          {/* Main title with enhanced styling */}
-          <motion.div
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
-            className="text-center"
-          >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-2">
-              <motion.span
-                className="inline-block bg-clip-text text-transparent"
-                style={{
-                  backgroundImage: 'linear-gradient(45deg, #1e40af, #3b82f6, #60a5fa, #1e40af)',
-                  backgroundSize: '300% 300%',
-                }}
-                animate={{ 
-                  backgroundPosition: ['0%', '100%'],
-                }}
-                transition={{ 
-                  duration: 4,
-                  repeat: Infinity,
-                  repeatType: 'reverse'
-                }}
+          {/* Navigation */}
+          <nav className="hidden md:flex items-center space-x-6">
+            <a
+              href="#analyze"
+              className="text-gray-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
+            >
+              Analyze
+            </a>
+            {hasAnalysisData && (
+              <button
+                onClick={onShowAdvancedAnalytics}
+                className="flex items-center space-x-2 text-gray-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
               >
-                MoodScope
-              </motion.span>
-            </h1>
-            
-            {/* Beta badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              className="inline-flex items-center space-x-1 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 backdrop-blur-sm border border-cyan-400/30 rounded-full px-3 py-1 text-sm"
+                <BarChart3 className="w-4 h-4" />
+                <span>Analytics</span>
+              </button>
+            )}
+            <a
+              href="#dashboard"
+              className="text-gray-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
             >
-              <Zap className="h-3 w-3 text-yellow-400" />
-              <span className="text-cyan-300 font-medium">AI-Powered</span>
-            </motion.div>
-          </motion.div>
+              Dashboard
+            </a>
+          </nav>
 
-          {/* Sparkles animation */}
-          <motion.div
-            initial={{ opacity: 0, rotate: -180 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+          {/* Theme Toggle */}
+          <motion.button
+            onClick={() => setIsDark(!isDark)}
+            className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors duration-200"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <motion.div
-              animate={{ 
-                rotate: [0, 10, -10, 0],
-                scale: [1, 1.2, 1]
-              }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                repeatType: 'reverse'
-              }}
-            >
-              <Sparkles className="h-8 w-8 text-yellow-400" />
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Enhanced subtitle */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-center mt-8"
-        >
-          <p className="text-xl md:text-2xl text-cyan-100 mb-4 font-light">
-            AI-Powered Music Mood Analysis
-          </p>
-          <p className="text-sm md:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Unlock the emotional DNA of your playlists with cutting-edge artificial intelligence and discover what your music reveals about your personality
-          </p>
-        </motion.div>
-
-        {/* Animated divider */}
-        <motion.div
-          initial={{ width: 0, opacity: 0 }}
-          animate={{ width: '100%', opacity: 1 }}
-          transition={{ duration: 1.2, delay: 1.2 }}
-          className="relative mt-8"
-        >
-          <div className="h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto max-w-md"></div>
-          <motion.div
-            animate={{ x: [-100, 100] }}
-            transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
-            className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-px bg-gradient-to-r from-purple-400 to-cyan-400 blur-sm"
-          ></motion.div>
-        </motion.div>
-
-        {/* Floating elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-white/20 rounded-full"
-              initial={{
-                x: Math.random() * 100 + '%',
-                y: Math.random() * 100 + '%',
-              }}
-              animate={{
-                y: [0, -30, 0],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: Math.random() * 2 + 3,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
+            {isDark ? (
+              <Sun className="w-5 h-5 text-yellow-400" />
+            ) : (
+              <Moon className="w-5 h-5 text-blue-400" />
+            )}
+          </motion.button>
         </div>
       </div>
     </motion.header>

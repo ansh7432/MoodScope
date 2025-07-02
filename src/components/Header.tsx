@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Music, Sparkles, Moon, Sun, BarChart3 } from 'lucide-react';
+import { Music, Sparkles, BarChart3 } from 'lucide-react';
 
 interface HeaderProps {
   onShowAdvancedAnalytics?: () => void;
@@ -10,7 +9,10 @@ interface HeaderProps {
 }
 
 export function Header({ onShowAdvancedAnalytics, hasAnalysisData }: HeaderProps) {
-  const [isDark, setIsDark] = useState(true);
+  const handleHomeClick = () => {
+    // Refresh the page to go back to the initial state
+    window.location.reload();
+  };
 
   return (
     <motion.header
@@ -21,14 +23,16 @@ export function Header({ onShowAdvancedAnalytics, hasAnalysisData }: HeaderProps
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo and Brand */}
-          <motion.div
-            className="flex items-center space-x-3"
+          {/* Logo and Brand - Now clickable as home button */}
+          <motion.button
+            onClick={handleHomeClick}
+            className="flex items-center space-x-3 group"
             whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.2 }}
           >
             <div className="relative">
-              <Music className="w-8 h-8 text-cyan-400" />
+              <Music className="w-8 h-8 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
               <motion.div
                 className="absolute inset-0 bg-cyan-400/30 rounded-full blur-md"
                 animate={{ scale: [1, 1.2, 1] }}
@@ -36,52 +40,39 @@ export function Header({ onShowAdvancedAnalytics, hasAnalysisData }: HeaderProps
               />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">MoodScope</h1>
+              <h1 className="text-2xl font-bold text-white group-hover:text-gray-100 transition-colors">
+                MoodScope
+              </h1>
               <div className="flex items-center space-x-1">
-                <Sparkles className="w-3 h-3 text-purple-400" />
-                <span className="text-xs text-purple-400 font-medium">AI Powered</span>
+                <Sparkles className="w-3 h-3 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                <span className="text-xs text-purple-400 group-hover:text-purple-300 transition-colors font-medium">
+                  AI Powered
+                </span>
               </div>
             </div>
-          </motion.div>
+          </motion.button>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <a
-              href="#analyze"
-              className="text-gray-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
-            >
-              Analyze
-            </a>
-            {hasAnalysisData && (
-              <button
-                onClick={onShowAdvancedAnalytics}
-                className="flex items-center space-x-2 text-gray-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
-              >
-                <BarChart3 className="w-4 h-4" />
-                <span>Analytics</span>
-              </button>
-            )}
-            <a
-              href="#dashboard"
-              className="text-gray-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
-            >
-              Dashboard
-            </a>
+          {/* Center Navigation - Analyze */}
+          <nav className="hidden md:flex items-center">
+          
           </nav>
 
-          {/* Theme Toggle */}
-          <motion.button
-            onClick={() => setIsDark(!isDark)}
-            className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors duration-200"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {isDark ? (
-              <Sun className="w-5 h-5 text-yellow-400" />
-            ) : (
-              <Moon className="w-5 h-5 text-blue-400" />
+          {/* Right Corner - Analytics Button */}
+          <div className="flex items-center">
+            {hasAnalysisData && (
+              <motion.button
+                onClick={onShowAdvancedAnalytics}
+                className="flex items-center space-x-2 text-gray-300 hover:text-cyan-400 transition-colors duration-200 font-medium px-4 py-2 rounded-lg hover:bg-gray-800/30 border border-gray-700/50 hover:border-cyan-400/50"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+              >
+                <BarChart3 className="w-4 h-4" />
+                <span className="hidden sm:inline">Advanced Analytics</span>
+                <span className="sm:hidden">Analytics</span>
+              </motion.button>
             )}
-          </motion.button>
+          </div>
         </div>
       </div>
     </motion.header>
